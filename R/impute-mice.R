@@ -12,6 +12,41 @@ eval_mice_calls <- function(missdf, method, ...) {
 }
 
 
+mice.impute.DRF<- function (y, ry, x, wy = NULL,min.node.size=1, num.features=10,  num.trees=10 , ...)
+{
+  #install.on.demand("drf", ...)
+  require(drf)
+  if (is.null(wy)) {
+    wy <- !ry
+  }
+  if (dim(x)[2] == 0) {
+    x <- cbind(x, 1)
+    dimnames(x) <- list(NULL, "int")
+  }
+  xobs <- x[ry, , drop = FALSE]
+  xmis <- x[wy, , drop = FALSE]
+  yobs <- as.matrix(y[ry])
+  
+  # args<-list(...)
+  # if ("m" %in% names(args)){
+  #   m<-args$m
+  # }else{
+  #   m=1
+  # }
+  m<-1
+  
+  
+  fit <- drf(Y=yobs, X=xobs,num.trees=num.trees, num.features=num.features, compute.oob.predictions = F, min.node.size=min.node.size)
+  DRFw <- predict(fit, newdata=xmis)$weights # These are the nodes now
+  impute <- vapply(1:nrow(xmis), function(s) yobs[sample(1:nrow(yobs), size=1, replace=T, prob=DRFw[s,]), ], numeric(m))  # sample one observation per xmis
+  
+  
+  
+  
+  impute
+}
+
+
 #' \strong{MICE PMM} imputation.
 #'
 #' Multiple Imputation by Chained Equations.
@@ -117,4 +152,44 @@ impute_mice_mixed <- function(missdf) {
                                       n.iter = 1,
                                       sel_method = 11)
   data.frame(imputed[["mice_mixed_imputation"]][[1]])
+}
+
+
+#' \strong{MICE DRF} imputation - TEST.
+#'
+#' Multiple Imputation by Chained Equations.
+#'
+#' A function to replace \code{NA} in the data frame by predictive mean matching
+#' (pmm) used [mice::mice()].
+#'
+#' @importFrom mice mice
+#' @importFrom mice quickpred
+#'
+#' @inheritParams impute_zero
+#' @param ... other parameters of [mice::mice()] besides \code{method} and
+#' \code{data}.
+#'
+#'
+#'
+#' @section Silent defaults:
+#' If \code{printFlag} is not defined in the function call, it is set to
+#' \code{FALSE}.
+#'
+#' If \code{predictorMatrix} is not defined in the function call, it is set to
+#' [mice::quickpred].
+#'
+#' @returns A \code{data.frame} with imputed values by pmm used [mice::mice()].
+#'
+#' @seealso [mice::mice()], [mice::mice.impute.pmm()]
+#'
+#' @examples
+#' data(sim_miss)
+#' impute_mice_pmm(sim_miss)
+#'
+#' @references
+#' \insertRef{buuren_mice_2011}{imputomics}
+#'
+#' @export
+impute_mice_drf <- function(missdf, ...) {
+  eval_mice_calls(missdf = missdf, method = "DRF", ...)
 }
