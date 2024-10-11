@@ -155,39 +155,26 @@ impute_mice_mixed <- function(missdf) {
 }
 
 
-#' \strong{MICE DRF} imputation - TEST.
+#' \strong{MICE drf} imputation.
 #'
 #' Multiple Imputation by Chained Equations.
 #'
-#' A function to replace \code{NA} in the data frame by predictive mean matching
-#' (pmm) used [mice::mice()].
-#'
-#' @importFrom mice mice
-#' @importFrom mice quickpred
+#' A function to replace \code{NA} in the data frame by random forest
+#' imputations as provided by [mice::mice()].
 #'
 #' @inheritParams impute_zero
-#' @param ... other parameters of [mice::mice()] besides \code{method} and
-#' \code{data}.
+#' @inheritParams impute_mice_pmm
 #'
+#' @returns A \code{data.frame} with imputed values by random forest used
+#' [mice::mice()].
 #'
+#' @inheritSection impute_mice_pmm Silent defaults
 #'
-#' @section Silent defaults:
-#' If \code{printFlag} is not defined in the function call, it is set to
-#' \code{FALSE}.
-#'
-#' If \code{predictorMatrix} is not defined in the function call, it is set to
-#' [mice::quickpred].
-#'
-#' @returns A \code{data.frame} with imputed values by pmm used [mice::mice()].
-#'
-#' @seealso [mice::mice()], [mice::mice.impute.pmm()]
+#' @seealso [mice::mice()], [mice::mice.impute.rf()], [drf::drf()]
 #'
 #' @examples
 #' data(sim_miss)
-#' impute_mice_pmm(sim_miss)
-#'
-#' @references
-#' \insertRef{buuren_mice_2011}{imputomics}
+#' impute_mice_drf(sim_miss)
 #'
 #' @export
 impute_mice_drf <- function(missdf, ...) {

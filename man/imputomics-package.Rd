@@ -26,7 +26,7 @@ Authors:
 \itemize{
   \item Krystyna Grzesiak \email{krygrz11@gmail.com} (\href{https://orcid.org/0000-0003-2581-7722}{ORCID}) [contributor]
   \item Jarosław Chilimoniuk \email{jaroslaw.chilimoniuk@gmail.com} (\href{https://orcid.org/0000-0001-5467-018X}{ORCID}) [contributor]
-  \item Jakub Kała \email{kalajakub96@gmail.com} [contributor]
+  \item Jakub Kołodziejczyk \email{kolodziejczykjakub.mail@gmail.com} (\href{https://orcid.org/0000-0002-7187-6988}{ORCID}) [contributor]
   \item Dominik Nowakowski \email{nowakowskisf@gmail.com} (\href{https://orcid.org/0000-0002-3515-4320}{ORCID}) [contributor]
 }
 
