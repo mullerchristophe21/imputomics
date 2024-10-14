@@ -1,3 +1,5 @@
+# nolint start
+
 sample_indices <- function(x) x[sample(length(x), size = 1)]
 
 get_missing_per_column <- function(dat, ratio = 0, thresh = 0.2) {

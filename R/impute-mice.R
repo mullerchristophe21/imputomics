@@ -2,12 +2,11 @@ eval_mice_calls <- function(missdf, method, ...) {
   check_missdf(missdf)
 
   all_args <- extend_arglist(list(...),
-                             list(data = missdf, method = method),
+                             list(data = missdf, method = method, m=1),
                              list(printFlag = FALSE,
                                   predictorMatrix = mice::quickpred(missdf)))
 
-  ### CHRIS: should we add argument "m = 1" to limit the computations? 
-  ### Seems like we comptue 5 imputations, but use only the first one
+  ### CHRIS: Added argument "m = 1" to limit the computations
 
   imputed <- do.call(mice::mice, all_args)
 
