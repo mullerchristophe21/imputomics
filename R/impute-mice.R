@@ -6,6 +6,9 @@ eval_mice_calls <- function(missdf, method, ...) {
                              list(printFlag = FALSE,
                                   predictorMatrix = mice::quickpred(missdf)))
 
+  ### CHRIS: should we add argument "m = 1" to limit the computations? 
+  ### Seems like we comptue 5 imputations, but use only the first one
+
   imputed <- do.call(mice::mice, all_args)
 
   mice::complete(imputed)
